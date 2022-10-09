@@ -1,0 +1,6 @@
+MGE             KEYWORD1
+escreveEEPROM   KEYWORD2
+lerEEPROM       KEYWORD2
+limpaEEPROM     KEYWORD2
+removeZero      KEYWORD2
+salvaConfig     KEYWORD2
