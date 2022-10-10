@@ -74,3 +74,21 @@ void MGE::salvaConfig(String mensagem){
     senhaRede = mensagem.substring(0, index);
     escreveEEPROM(45, 65, senhaRede);
 };
+
+String MGE::loadConfig(int idconfig){
+  switch (idconfig)
+  {
+  case 1:
+    return removeZero(lerEEPROM(1, 4));
+    break;
+  case 2:
+    return removeZero(lerEEPROM(7, 23));
+  case 3:
+    return removeZero(lerEEPROM(24, 44));
+  case 4:
+    return removeZero(lerEEPROM(45, 65));
+  default:
+    break;
+  }
+    
+};

@@ -20,10 +20,10 @@ void setup() {
 void loop() {
 
   //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;
-  equipmentId = MGE().lerEEPROM(1, 4).toInt();
-  ipJMS = MGE().removeZero(MGE().lerEEPROM(7, 23));
-  SSID = MGE().removeZero(MGE().lerEEPROM(24, 44));
-  senhaRede = MGE().removeZero(MGE().lerEEPROM(45, 65));
+  equipmentId = MGE().loadConfig(1).toInt();
+  ipJMS = MGE().loadConfig(2);
+  SSID = MGE().loadConfig(3);
+  senhaRede = MGE().loadConfig(4);
 
   //limpaEEPROM();
 

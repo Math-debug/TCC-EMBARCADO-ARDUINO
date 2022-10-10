@@ -6,12 +6,13 @@
  
  class MGE {
     public:
-        String lerEEPROM(int enderecoInicio, int enderecoFim);
         void limpaEEPROM();
-        String removeZero(String value);
         void salvaConfig(String mensagem);
+        String loadConfig(int idconfig);
     private:
         void escreveEEPROM(int enderecoInicio, int enderecoFim, String mensagem);
+        String lerEEPROM(int enderecoInicio, int enderecoFim);
+        String removeZero(String value);
  };
  
 #endif
