@@ -28,8 +28,18 @@ void loop() {
   //limpaEEPROM();
 
   if (Serial.available() > 0) {
-    mensagem = Serial.readString();
-    MGE().salvaConfig(mensagem);
+    String comand = Serial.readString();
+    Serial.println(comand);
+    if(comand == "N"){
+      Serial.println("Aguardando configuracoes");
+      while (true) {
+        if(Serial.available() > 0){
+        mensagem = Serial.readString();
+        MGE().salvaConfig(mensagem);
+        break;
+        }
+      };
+    }
   }
 
   typedef struct
