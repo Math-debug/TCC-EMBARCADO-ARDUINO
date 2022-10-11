@@ -2,14 +2,14 @@
 
 // Endereco 1 a 4
 String equipmentId;
-// Endereco 5 a 6
-String isEnabledSystem;
 // Endereco 7 a 23
 String ipJMS;
 // Endereco 24 a 44
 String SSID;
 // Endereco 45 a 65
 String senhaRede;
+// Endereco 5 a 6
+String isEnabledSystem;
 
 String mensagem;
 
@@ -19,11 +19,12 @@ void setup() {
 
 void loop() {
 
-  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;
+  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;
   equipmentId = MGE().loadConfig(1).toInt();
   ipJMS = MGE().loadConfig(2);
   SSID = MGE().loadConfig(3);
   senhaRede = MGE().loadConfig(4);
+  isEnabledSystem = MGE().loadConfig(5);
 
   //limpaEEPROM();
 
@@ -41,6 +42,9 @@ void loop() {
       };
     }
   }
+  if(isEnabledSystem == "0"){
+    return;
+  }
 
   typedef struct
   {
@@ -53,7 +57,7 @@ void loop() {
     float current;
     float voltage;
     String toString() {
-      return String("{\"equipment\":{ \"id\":") + equipment.id + " }, \"current\": " + current + ",\"voltage\":" + voltage + "}_";
+      return String("{\"equipment\":{ \"id\":") + equipment.id + " }, \"current\": " + current + ",\"voltage\":" + voltage + "}";
     }
   } keepAlive;
 

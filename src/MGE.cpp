@@ -54,6 +54,7 @@ void MGE::salvaConfig(String mensagem){
     String ipJMS;
     String SSID;
     String senhaRede;
+    String isEnabledSystem;
 
     int index = mensagem.indexOf(";");
     equipmentId = mensagem.substring(0, index);
@@ -73,6 +74,11 @@ void MGE::salvaConfig(String mensagem){
     index = mensagem.indexOf(";");
     senhaRede = mensagem.substring(0, index);
     escreveEEPROM(45, 65, senhaRede);
+    index = index + 1;
+    mensagem = mensagem.substring(index);
+    index = mensagem.indexOf(";");
+    isEnabledSystem = mensagem.substring(0, index);
+    escreveEEPROM(5, 6, isEnabledSystem);
 };
 
 String MGE::loadConfig(int idconfig){
@@ -87,6 +93,8 @@ String MGE::loadConfig(int idconfig){
     return removeZero(lerEEPROM(24, 44));
   case 4:
     return removeZero(lerEEPROM(45, 65));
+  case 5:
+    return lerEEPROM(5, 6);
   default:
     break;
   }
