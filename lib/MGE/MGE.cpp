@@ -35,6 +35,7 @@ void MGE::limpaEEPROM(){
     for (int i = 0; i < EEPROM.length(); i++) {
     EEPROM.write(i, 0);
   }
+  escreveEEPROM(5, 6, "0");
 };
 
 String MGE::removeZero(String value) {
@@ -55,6 +56,8 @@ void MGE::salvaConfig(String mensagem){
     String SSID;
     String senhaRede;
     String isEnabledSystem;
+    String tipoRede;
+    String neutroAtivo;
 
     int index = mensagem.indexOf(";");
     equipmentId = mensagem.substring(0, index);
@@ -79,6 +82,16 @@ void MGE::salvaConfig(String mensagem){
     index = mensagem.indexOf(";");
     isEnabledSystem = mensagem.substring(0, index);
     escreveEEPROM(5, 6, isEnabledSystem);
+    index = index + 1;
+    mensagem = mensagem.substring(index);
+    index = mensagem.indexOf(";");
+    tipoRede = mensagem.substring(0, index);
+    escreveEEPROM(66, 67, tipoRede);
+    index = index + 1;
+    mensagem = mensagem.substring(index);
+    index = mensagem.indexOf(";");
+    neutroAtivo = mensagem.substring(0, index);
+    escreveEEPROM(68, 69, neutroAtivo);
 };
 
 String MGE::loadConfig(int idconfig){
@@ -95,6 +108,10 @@ String MGE::loadConfig(int idconfig){
     return removeZero(lerEEPROM(45, 65));
   case 5:
     return lerEEPROM(5, 6);
+  case 6:
+    return lerEEPROM(66, 67);
+  case 7:
+    return lerEEPROM(68, 69);
   default:
     break;
   }

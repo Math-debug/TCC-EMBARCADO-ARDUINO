@@ -1,15 +1,12 @@
 #include <MGE.h>
 
-// Endereco 1 a 4
 String equipmentId;
-// Endereco 7 a 23
 String ipJMS;
-// Endereco 24 a 44
 String SSID;
-// Endereco 45 a 65
 String senhaRede;
-// Endereco 5 a 6
 String isEnabledSystem;
+String tipoRede;
+String neutroAtivo;
 
 String mensagem;
 
@@ -19,14 +16,14 @@ void setup() {
 
 void loop() {
 
-  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;
+  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;M;1;
   equipmentId = MGE().loadConfig(1).toInt();
   ipJMS = MGE().loadConfig(2);
   SSID = MGE().loadConfig(3);
   senhaRede = MGE().loadConfig(4);
   isEnabledSystem = MGE().loadConfig(5);
-
-  //limpaEEPROM();
+  tipoRede = MGE().loadConfig(6);
+  neutroAtivo = MGE().loadConfig(7);
 
   if (Serial.available() > 0) {
     String comand = Serial.readString();
@@ -40,6 +37,9 @@ void loop() {
         break;
         }
       };
+    }
+    else if (comand == "R"){
+      MGE().limpaEEPROM();
     }
   }
   if(isEnabledSystem == "0"){
@@ -67,6 +67,15 @@ void loop() {
   int voltage = numeroAleatorio(200, 220);
   keepAlive.voltage = voltage;
 
+  Serial.println("============ Configuracoes ============");
+  Serial.println("id do Equipamento: " + equipmentId);
+  Serial.println("IP do JMS: "+ipJMS);
+  Serial.println("SSID: "+SSID);
+  Serial.println("Senha da Rede: "+senhaRede);
+  Serial.println("Tipo de Rede: "+tipoRede);
+  Serial.println("Neutro: "+neutroAtivo);
+  delay(1000);
+  Serial.println("============= Keep Alive ==============");
   Serial.println(keepAlive.toString());
 
   delay(1000);
