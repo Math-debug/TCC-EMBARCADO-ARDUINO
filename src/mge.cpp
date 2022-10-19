@@ -7,8 +7,11 @@ String senhaRede;
 String isEnabledSystem;
 String tipoRede;
 String neutroAtivo;
+char sep = ';';
 
 String mensagem;
+
+int numeroAleatorio(int menor, int maior);
 
 void setup() {
   Serial.begin(9600);
@@ -29,7 +32,6 @@ void loop() {
     String comand = Serial.readString();
     Serial.println(comand);
     if(comand == "N"){
-      Serial.println("Aguardando configuracoes");
       while (true) {
         if(Serial.available() > 0){
         mensagem = Serial.readString();
@@ -40,6 +42,9 @@ void loop() {
     }
     else if (comand == "R"){
       MGE().limpaEEPROM();
+    }
+    else if (comand == "C"){
+      Serial.println(String("if_") + sep + equipmentId + sep + ipJMS + sep + SSID + sep + senhaRede + sep + tipoRede + sep + neutroAtivo + sep);
     }
   }
   if(isEnabledSystem == "0"){
@@ -66,18 +71,8 @@ void loop() {
   keepAlive.current = current;
   int voltage = numeroAleatorio(200, 220);
   keepAlive.voltage = voltage;
-
-  Serial.println("============ Configuracoes ============");
-  Serial.println("id do Equipamento: " + equipmentId);
-  Serial.println("IP do JMS: "+ipJMS);
-  Serial.println("SSID: "+SSID);
-  Serial.println("Senha da Rede: "+senhaRede);
-  Serial.println("Tipo de Rede: "+tipoRede);
-  Serial.println("Neutro: "+neutroAtivo);
-  delay(1000);
   Serial.println("============= Keep Alive ==============");
   Serial.println(keepAlive.toString());
-
   delay(1000);
 }
 
