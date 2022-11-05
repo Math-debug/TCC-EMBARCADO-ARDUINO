@@ -11,7 +11,7 @@ void MGE::escreveEEPROM(int enderecoInicio, int enderecoFim, String mensagem){
       }
       i++;
     }
-    Serial.println("Salvando mensagem: " + mensagem);
+    // Serial.println("Salvando mensagem: " + mensagem);
     EEPROM.write(enderecoFim, '\0');
   }
 };
@@ -58,6 +58,7 @@ void MGE::salvaConfig(String mensagem){
     String isEnabledSystem;
     String tipoRede;
     String neutroAtivo;
+    String terraAtivo;
 
     int index = mensagem.indexOf(";");
     equipmentId = mensagem.substring(0, index);
@@ -92,6 +93,11 @@ void MGE::salvaConfig(String mensagem){
     index = mensagem.indexOf(";");
     neutroAtivo = mensagem.substring(0, index);
     escreveEEPROM(68, 69, neutroAtivo);
+    index = index + 1;
+    mensagem = mensagem.substring(index);
+    index = mensagem.indexOf(";");
+    terraAtivo = mensagem.substring(0, index);
+    escreveEEPROM(70, 71, terraAtivo);
 };
 
 String MGE::loadConfig(int idconfig){
@@ -112,6 +118,8 @@ String MGE::loadConfig(int idconfig){
     return lerEEPROM(66, 67);
   case 7:
     return lerEEPROM(68, 69);
+  case 8:
+    return lerEEPROM(70, 71);
   default:
     break;
   }

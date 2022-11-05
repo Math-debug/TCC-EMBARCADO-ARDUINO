@@ -7,6 +7,7 @@ String senhaRede;
 String isEnabledSystem;
 String tipoRede;
 String neutroAtivo;
+String terraAtivo;
 char sep = ';';
 
 String mensagem;
@@ -19,14 +20,15 @@ void setup() {
 
 void loop() {
 
-  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;M;1;
+  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;M;1;1;
   equipmentId = MGE().loadConfig(1).toInt();
   ipJMS = MGE().loadConfig(2);
   SSID = MGE().loadConfig(3);
   senhaRede = MGE().loadConfig(4);
   isEnabledSystem = MGE().loadConfig(5);
   tipoRede = MGE().loadConfig(6);
-  neutroAtivo = MGE().loadConfig(7);
+  neutroAtivo = MGE().loadConfig(7).toInt();
+  terraAtivo = MGE().loadConfig(8).toInt();
 
   if (Serial.available() > 0) {
     String comand = Serial.readString();
@@ -43,14 +45,11 @@ void loop() {
     else if (comand == "R"){
       MGE().limpaEEPROM();
     }
-    else if (comand == "C"){
-      Serial.println(String("if_") + sep + equipmentId + sep + ipJMS + sep + SSID + sep + senhaRede + sep + tipoRede + sep + neutroAtivo + sep);
-    }
   }
+
   if(isEnabledSystem == "0"){
     return;
   }
-
   typedef struct
   {
     int id;
@@ -71,7 +70,6 @@ void loop() {
   keepAlive.current = current;
   int voltage = numeroAleatorio(200, 220);
   keepAlive.voltage = voltage;
-  Serial.println("============= Keep Alive ==============");
   Serial.println(keepAlive.toString());
   delay(1000);
 }
