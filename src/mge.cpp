@@ -13,22 +13,16 @@ char sep = ';';
 String mensagem;
 
 int numeroAleatorio(int menor, int maior);
+void loadConfig();
 
 void setup() {
   Serial.begin(9600);
+  loadConfig();
 }
 
 void loop() {
 
   //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;M;1;1;
-  equipmentId = MGE().loadConfig(1).toInt();
-  ipJMS = MGE().loadConfig(2);
-  SSID = MGE().loadConfig(3);
-  senhaRede = MGE().loadConfig(4);
-  isEnabledSystem = MGE().loadConfig(5);
-  tipoRede = MGE().loadConfig(6);
-  neutroAtivo = MGE().loadConfig(7).toInt();
-  terraAtivo = MGE().loadConfig(8).toInt();
 
   if (Serial.available() > 0) {
     String comand = Serial.readString();
@@ -38,6 +32,7 @@ void loop() {
         if(Serial.available() > 0){
         mensagem = Serial.readString();
         MGE().salvaConfig(mensagem);
+        loadConfig();
         break;
         }
       };
@@ -76,4 +71,15 @@ void loop() {
 
 int numeroAleatorio(int menor, int maior) {
   return rand() % (maior - menor + 1) + menor;
+}
+
+void loadConfig(){
+  equipmentId = MGE().loadConfig(1).toInt();
+  ipJMS = MGE().loadConfig(2);
+  SSID = MGE().loadConfig(3);
+  senhaRede = MGE().loadConfig(4);
+  isEnabledSystem = MGE().loadConfig(5);
+  tipoRede = MGE().loadConfig(6);
+  neutroAtivo = MGE().loadConfig(7).toInt();
+  terraAtivo = MGE().loadConfig(8).toInt();
 }
