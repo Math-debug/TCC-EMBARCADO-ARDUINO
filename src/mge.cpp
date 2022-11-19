@@ -18,6 +18,7 @@ void loadConfig();
 void setup() {
   Serial.begin(9600);
   loadConfig();
+  MGE().wifiInit(SSID,senhaRede);
 }
 
 void loop() {
@@ -66,7 +67,8 @@ void loop() {
   int voltage = numeroAleatorio(200, 220);
   keepAlive.voltage = voltage;
   Serial.println(keepAlive.toString());
-  delay(1000);
+  MGE().sendToSync(keepAlive.toString());
+  delay(5000);
 }
 
 int numeroAleatorio(int menor, int maior) {
