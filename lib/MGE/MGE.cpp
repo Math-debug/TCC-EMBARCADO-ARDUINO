@@ -61,6 +61,8 @@ void MGE::salvaConfig(String mensagem){
     String tipoRede;
     String neutroAtivo;
     String terraAtivo;
+    String gateway;
+    String subrede;
 
     int index = mensagem.indexOf(";");
     equipmentId = mensagem.substring(0, index);
@@ -100,6 +102,16 @@ void MGE::salvaConfig(String mensagem){
     index = mensagem.indexOf(";");
     terraAtivo = mensagem.substring(0, index);
     escreveEEPROM(70, 71, terraAtivo);
+    index = index + 1;
+    mensagem = mensagem.substring(index);
+    index = mensagem.indexOf(";");
+    gateway = mensagem.substring(0, index);
+    escreveEEPROM(72, 88, gateway);
+    index = index + 1;
+    mensagem = mensagem.substring(index);
+    index = mensagem.indexOf(";");
+    subrede = mensagem.substring(0, index);
+    escreveEEPROM(89, 105, subrede);
 };
 
 String MGE::loadConfig(int idconfig){
@@ -122,26 +134,30 @@ String MGE::loadConfig(int idconfig){
     return lerEEPROM(68, 69);
   case 8:
     return lerEEPROM(70, 71);
+  case 9:
+    return removeZero(lerEEPROM(72, 88));
+  case 10:
+    return removeZero(lerEEPROM(89, 105));
   default:
     break;
   }
     
 };
 
-void MGE::wifiInit(String SSID, String password){
+void MGE::wifiInit(String SSID, String password, String ip, String gateway, String subrede){
   esp8266.begin(19200);
  
-  sendData("AT+RST\r\n", 2000, true); // rst
+  sendData("AT+RST\r\n", 2000, false); // rst
   // Conecta a rede wireless
   sendData("AT+CWJAP=\""+SSID+"\",\""+password+"\"\r\n", 2000, true);
   delay(3000);
-  sendData("AT+CWMODE=1\r\n", 1000, true);
-  // Mostra o endereco IP
-  sendData("AT+CIFSR\r\n", 1000, true);
+  sendData("AT+CWMODE=1\r\n", 1000, false);
+  // seta ip Fixo
+  sendData("AT+CIPSTA_DEF=\""+ip+"\",\""+subrede+"\",\""+gateway+"\"\r\n", 1000, false);
   // Configura para multiplas conexoes
-  sendData("AT+CIPMUX=1\r\n", 1000, true);
+  sendData("AT+CIPMUX=1\r\n", 1000, false);
   // Inicia o web server na porta 80
-  sendData("AT+CIPSERVER=1,80\r\n", 1000, true);
+  sendData("AT+CIPSERVER=1,80\r\n", 2000, true);
 };
 
 String MGE::sendData(String command, const int timeout, boolean debug){

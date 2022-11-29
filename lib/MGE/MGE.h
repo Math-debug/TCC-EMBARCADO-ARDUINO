@@ -10,7 +10,7 @@
         void limpaEEPROM();
         void salvaConfig(String mensagem);
         String loadConfig(int idconfig);
-        void wifiInit(String SSID, String password);
+        void wifiInit(String SSID, String password, String ip, String gateway, String subrede);
         void sendToSync(String dados);
     private:
         void escreveEEPROM(int enderecoInicio, int enderecoFim, String mensagem);

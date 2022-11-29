@@ -8,6 +8,8 @@ String isEnabledSystem;
 String tipoRede;
 String neutroAtivo;
 String terraAtivo;
+String gateway;
+String subrede;
 char sep = ';';
 
 String mensagem;
@@ -18,7 +20,7 @@ void loadConfig();
 void setup() {
   Serial.begin(9600);
   loadConfig();
-  MGE().wifiInit(SSID,senhaRede);
+  MGE().wifiInit(SSID,senhaRede,ipJMS,gateway,subrede);
 }
 
 void loop() {
@@ -68,7 +70,7 @@ void loop() {
   keepAlive.voltage = voltage;
   Serial.println(keepAlive.toString());
   MGE().sendToSync(keepAlive.toString());
-  delay(5000);
+  delay(1000);
 }
 
 int numeroAleatorio(int menor, int maior) {
@@ -84,4 +86,6 @@ void loadConfig(){
   tipoRede = MGE().loadConfig(6);
   neutroAtivo = MGE().loadConfig(7).toInt();
   terraAtivo = MGE().loadConfig(8).toInt();
+  gateway = MGE().loadConfig(9);
+  subrede = MGE().loadConfig(10);
 }
