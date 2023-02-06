@@ -153,7 +153,10 @@ void MGE::wifiInit(String SSID, String password, String ip, String gateway, Stri
   delay(3000);
   sendData("AT+CWMODE=1\r\n", 1000, false);
   // seta ip Fixo
-  sendData("AT+CIPSTA_DEF=\""+ip+"\",\""+subrede+"\",\""+gateway+"\"\r\n", 1000, false);
+  Serial.println(ip);
+  Serial.println(gateway);
+  Serial.println(subrede);
+  sendData("AT+CIPSTA_DEF=\""+ip+"\",\""+gateway+"\",\""+subrede+"\"\r\n", 1000, false);
   // Configura para multiplas conexoes
   sendData("AT+CIPMUX=1\r\n", 1000, false);
   // Inicia o web server na porta 80

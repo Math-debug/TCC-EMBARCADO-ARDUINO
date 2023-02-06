@@ -25,7 +25,7 @@ void setup() {
 
 void loop() {
 
-  //001;000192.168.18.26;0000000000000000HOME;000000000000senha123;1;M;1;1;
+  //001;00192.168.100.26;0000000000000000Home;0000MMTTUSXAVIER@123;1;M;1;1;000192.168.100.1;000255.255.255.0;
 
   if (Serial.available() > 0) {
     String comand = Serial.readString();
