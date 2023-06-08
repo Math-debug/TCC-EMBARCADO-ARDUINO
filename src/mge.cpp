@@ -53,21 +53,48 @@ void loop() {
     int id;
   } Equipment;
 
+  typedef struct
+  {
+    float current1;
+    float current2;
+    float current3;
+  } Current;
+
+  typedef struct
+  {
+    float fase1fase2;
+    float fase2fase3;
+    float fase3fase1;
+  } Voltage;
+
   struct
   {
     Equipment equipment;
-    float current;
-    float voltage;
+    Current current;
+    Voltage voltage;
+    String type;
     String toString() {
-      return String("{\"equipment\":{ \"id\":") + equipment.id + " }, \"current\": " + current + ",\"voltage\":" + voltage + "}";
+      return String("{\"equipment\":{ \"id\":") + equipment.id + " }, \"current\": { \"current1\":" + current.current1 + ", \"current2\":"+ current.current2 +", \"current3\":"+ current.current3 +"  },\"voltage\":{ \"fase1fase2\":"+ voltage.fase1fase2 +", \"fase2fase3\":"+ voltage.fase2fase3 +", \"fase3fase1\":"+ voltage.fase3fase1 +"}, \"type\":\""+ "B" +"\"}";
     }
   } keepAlive;
 
   keepAlive.equipment.id = equipmentId.toInt();
   int current = numeroAleatorio(1, 3);
-  keepAlive.current = current;
+  keepAlive.current.current1 = current;
+  keepAlive.current.current2 = current;
+  keepAlive.current.current3 = current;
   int voltage = numeroAleatorio(200, 220);
-  keepAlive.voltage = voltage;
+  keepAlive.voltage.fase1fase2 = voltage;
+  keepAlive.voltage.fase2fase3 = voltage;
+  keepAlive.voltage.fase3fase1 = voltage;
+  if(tipoRede == "M"){
+    tipoRede = "M";
+  } else if(tipoRede == "B"){
+    tipoRede = "B";
+  }else {
+    tipoRede = "T";
+  }
+  keepAlive.type = tipoRede;
   Serial.println(keepAlive.toString());
   MGE().sendToSync(keepAlive.toString());
   delay(1000);
