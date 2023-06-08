@@ -74,7 +74,7 @@ void loop() {
     Voltage voltage;
     String type;
     String toString() {
-      return String("{\"equipment\":{ \"id\":") + equipment.id + " }, \"current\": { \"current1\":" + current.current1 + ", \"current2\":"+ current.current2 +", \"current3\":"+ current.current3 +"  },\"voltage\":{ \"fase1fase2\":"+ voltage.fase1fase2 +", \"fase2fase3\":"+ voltage.fase2fase3 +", \"fase3fase1\":"+ voltage.fase3fase1 +"}, \"type\":\""+ "B" +"\"}";
+      return String("{\"equipment\":{ \"id\":") + equipment.id + " }, \"current\": { \"current1\":" + current.current1 + ", \"current2\":"+ current.current2 +", \"current3\":"+ current.current3 +"  },\"voltage\":{ \"fase1fase2\":"+ voltage.fase1fase2 +", \"fase2fase3\":"+ voltage.fase2fase3 +", \"fase3fase1\":"+ voltage.fase3fase1 +"}, \"type\":\""+ tipoRede +"\"}";
     }
   } keepAlive;
 
@@ -95,7 +95,7 @@ void loop() {
     tipoRede = "T";
   }
   keepAlive.type = tipoRede;
-  Serial.println(keepAlive.toString());
+  //Serial.println(keepAlive.toString());
   MGE().sendToSync(keepAlive.toString());
   delay(1000);
 }
