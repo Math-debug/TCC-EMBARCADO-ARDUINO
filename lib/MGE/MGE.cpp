@@ -200,7 +200,7 @@ void MGE::sendToSync(String dados){
       cipSend += ",";
       cipSend += webpage.length();
       cipSend += "\r\n";
- 
+      Serial.println(dados);
       sendData(cipSend, 1000, false);
       sendData(webpage, 1000, false);
  
